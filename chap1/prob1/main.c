@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "copy.h"
 
 char line[MAXLINE]; // 입력 줄
@@ -10,7 +11,7 @@ main(){
 	int max;
 	max = 0;
 	while(gets(line) != NULL) {
-    		len = stelen(line);
+    		len = strlen(line);
 		if(len > max) {
 			max = len;
 			copy(line, longest);
