@@ -4,14 +4,14 @@
 int main(int argc, char *argv[]) {
     FILE *fp;
     int c;
-    int line_number = 1;  // 줄 번호
+    int line_number = 1; 
 
     if (argc < 2) {
         fprintf(stderr, "Usage: %s [OPTION] [FILE]...\n", argv[0]);
         return 1;
     }
 
-    // 옵션 처리
+    
     int opt = 0;
     if (argc >= 3 && argv[1][0] == '-') {
         if (argv[1][1] == 'n') {
@@ -22,7 +22,6 @@ int main(int argc, char *argv[]) {
     }
 
     for (int i = 1; i < argc; i++) {
-        // Open the file for reading
         fp = fopen(argv[i], "r");
 
         if (fp == NULL) {
@@ -32,14 +31,12 @@ int main(int argc, char *argv[]) {
 
         c = getc(fp);
         if (opt) {
-            // 출력 파일에 줄 번호와 함께 내용 출력
             printf("%4d  ", line_number);
         }
 
         while (c != EOF) {
-            putc(c, stdout);  // Always output to stdout
+            putc(c, stdout);
             if (c == '\n' && opt) {
-                // 줄 번호를 증가
                 line_number++;
                 printf("%4d  ", line_number);
             }
