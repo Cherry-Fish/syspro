@@ -1,54 +1,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 
-void printEnvironmentVariable(char *envVarName);
-void printUserAndGroupIDs();
-void printProcessIDs();
+extern char **environ;
 
 int main(int argc, char *argv[]) {
-    int opt;
+    char **ptr;
 
-    while ((opt = getopt(argc, argv, "e:ugiip")) != -1) {
-        switch (opt) {
-            case 'e':
-                printEnvironmentVariable(optarg);
-                break;
-            case 'u':
-            case 'g':
-                printUserAndGroupIDs();
-                break;
-            case 'i':
-            case 'p':
-                printProcessIDs();
-                break;
-            default:
-                fprintf(stderr, "Usage: %s [-e <envVarName>] [-u | -g] [-i | -p]\n", argv[0]);
-                exit(EXIT_FAILURE);
+    for (int i = 1; i < argc; i++) {
+        if (argv[i][0] == '-' && argv[i][1] == 'e') {
+            
+            if (argv[i + 1] != NULL && argv[i + 1][0] != '-') {
+                char *env_value = getenv(argv[i + 1]);
+                if (env_value != NULL) {
+                    printf("%s=%s\n", argv[i + 1], env_value);
+                }
+                i++;
+            } else {
+                for (ptr = environ; *ptr != 0; ptr++)
+                    printf("%s \n", *ptr);
+            }
+        } else {
+            switch (argv[i][1]) {
+                case 'u':
+                    printf("실제 사용자 ID: %d\n", getuid());
+                    printf("유효 사용자 ID: %d\n", geteuid());
+                    break;
+                case 'g':
+                    printf("실제 그룹 ID: %d\n", getgid());
+                    printf("유효 그룹 ID: %d\n", getegid());
+                    break;
+                case 'i':
+                    printf("프로세스 ID: %d\n", getpid());
+                    break;
+                case 'p':
+                    printf("부모 프로세스 ID: %d\n", getppid());
+                    break;
+            }
         }
     }
 
     return 0;
 }
-
-void printEnvironmentVariable(char *envVarName) {
-    char *envVarValue = getenv(envVarName);
-    if (envVarValue == NULL) {
-        fprintf(stderr, "Environment variable '%s' not found.\n", envVarName);
-    } else {
-        printf("%s=%s\n", envVarName, envVarValue);
-    }
-}
-
-void printUserAndGroupIDs() {
-    printf("Real User ID: %d\n", getuid());
-    printf("Effective User ID: %d\n", geteuid());
-    printf("Real Group ID: %d\n", getgid());
-    printf("Effective Group ID: %d\n", getegid());
-}
-
-void printProcessIDs() {
-    printf("Process ID: %d\n", getpid());
-    printf("Parent Process ID: %d\n", getppid());
-}
-
