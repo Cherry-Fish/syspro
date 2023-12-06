@@ -1,0 +1,30 @@
+(base) minkwon@imingwon-ui-MacBookAir prob8 % (echo START1; sleep 10; echo DONE1) &
+
+[1] 33492
+START1
+(base) minkwon@imingwon-ui-MacBookAir prob8 % (echo START2; sleep 10; echo DONE2) &
+
+[2] 33494
+START2                                                                          
+(base) minkwon@imingwon-ui-MacBookAir prob8 % DONE1
+
+[1]  - done       ( echo START1; sleep 10; echo DONE1; )
+(base) minkwon@imingwon-ui-MacBookAir prob8 % kill -KILLDONE2
+
+[2]  + done       ( echo START2; sleep 10; echo DONE2; )
+(base) minkwon@imingwon-ui-MacBookAir prob8 % kill -KILL                 
+kill: not enough arguments
+(base) minkwon@imingwon-ui-MacBookAir prob8 % kill -KILL 첫 번째 프로세스
+kill: illegal pid: 첫
+kill: illegal pid: 번째
+kill: illegal pid: 프로세스
+(base) minkwon@imingwon-ui-MacBookAir prob8 % kill -STOP 첫 번째 프로세스
+kill: illegal pid: 첫
+kill: illegal pid: 번째
+kill: illegal pid: 프로세스
+(base) minkwon@imingwon-ui-MacBookAir prob8 % kill -CONT 첫 번째 프로세스
+kill: illegal pid: 첫
+kill: illegal pid: 번째
+kill: illegal pid: 프로세스
+(base) minkwon@imingwon-ui-MacBookAir prob8 % 
+
